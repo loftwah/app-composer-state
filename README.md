@@ -21,3 +21,15 @@ Optional server-only daily counts use `USAGE_ENDPOINT` (an explicit HTTPS app-sc
 Vault operations remain local and the browser keeps `connect-src none`. Only the server home-page count is optional. The launch operator enables its own instances through Wrangler secrets; do not copy those secrets into a fork. The public [app activity](https://composer.loftwah.com/activity) explains retention, limits and missing-count/bot caveats.
 
 Add `?vitals=1` to the public page, then open “Page performance” for local LCP/INP/CLS measurements. Values apply to this load only; unsupported metrics say unavailable. The self-hosted standard `web-vitals` 6.2.3 bundle and Apache licence/provenance are retained. No values, element attribution or page data are uploaded or persisted. Developer console links stay public and do not print app contents.
+
+## Try the fictional example
+
+Reviewed 14 October 2026. [Open Carry / forward](https://ai.loftwah.com).
+
+1. Choose **Open Mira’s example** to read the invented museum-maker profile.
+2. Tick a memory. Review the exact outgoing JSON, approve it, then choose **Copy selected memories**. Changing the selection clears approval. Nothing goes to an assistant until you paste it there.
+3. Enter a made-up passphrase of at least 16 characters and **Encrypt and download**. Keep the passphrase separately. Saving an encrypted copy on this device is optional.
+4. **Close this profile**, choose the downloaded JSON file and enter the same passphrase to **Reopen encrypted profile**. A wrong passphrase exposes no profile.
+5. Optional: add an invented update under **Keep a note for next time**, then download again to retain it. **Remove saved copy** only removes browser persistence; it leaves the open profile and downloaded files alone.
+
+The original generated keepsake artwork is copied from the Composer-owned source with its provenance. Encryption implementation and file format remain unchanged. The saved reader theme applies before paint. This example is assistant context, not a shared account login or an authenticated real-data vault; security/provider/recovery acceptance remains open.

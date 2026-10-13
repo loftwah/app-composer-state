@@ -1,0 +1,19 @@
+{
+  "reviewed": "2026-10-13",
+  "generator": "Built-in image_gen",
+  "purpose": "Original editorial app illustrations; decorative thumbnails, never vendor UI or documentary photos.",
+  "commonDirection": "Square tactile studio still life, warm off-white limestone, terracotta orange and graphite. Natural soft directional daylight, realistic material grain, simple silhouette readable at 48 pixels, no text, numbers, UI, logos, copied branding or glowing AI motifs.",
+  "assets": [
+    {
+      "id": "state",
+      "promptSubject": "A graphite locked keepsake box with an orange translucent key and blank memory notes.",
+      "masterFilename": "exec-c85de76b-ca93-4fe6-b90a-895240321cc0.png",
+      "exports": [
+        "/brand/state-v1.webp"
+      ],
+      "dimensions": [
+        480
+      ]
+    }
+  ]
+}
