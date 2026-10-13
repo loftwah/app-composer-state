@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Carry / forward · Fictional Portable AI State</title>
+    <title>Carry / forward · Portable assistant memory</title>
     <meta
       name="description"
-      content="A synthetic-only, locally encrypted assistant identity and memory demo. Your passphrase stays separate; disclosure is an explicit choice."
+      content="Try a fictional assistant profile, choose memories to share and save an encrypted file you can reopen. Everything happens in your browser."
     />
     <link rel="canonical" href="https://ai.loftwah.com" />
     <meta property="og:title" content="Carry / forward · Portable AI State" />
@@ -36,6 +36,8 @@
       name="twitter:image:alt"
       content="Original generated App Composer artwork."
     />
+    <script src="/brand/reader-theme.js"></script>
+    <link rel="preload" href="/space.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/brand/navigation.css" />
     <link rel="stylesheet" href="/style.css" />
   </head>
@@ -109,120 +111,85 @@
       </ul>
     </dialog>
     <main id="main">
-      <h1>Encrypt a fictional<br />assistant profile.</h1>
-      <p class="lede">
-        Carry a fictional profile and selected memories between assistants.
-        Encrypt the file here; keep the passphrase with you.
-      </p>
-      <p class="notice">
-        Synthetic data only. This is a working demonstration, not permission to
-        import real private records. All personas are invented; no Emilio data
-        is used.
-      </p>
-      <div class="split">
-        <section>
-          <h2>Meet Mira Vale.</h2>
-          <p>
-            An invented museum maker, with fictional memories and a few
-            different perspectives. Identity, memory, uncertain questions and
-            reviewed checkpoints stay distinct.
-          </p>
-          <button id="fixture">Open the fictional fixture</button
-          ><label
-            >Demo passphrase<input
-              id="passphrase"
-              type="password"
-              minlength="16"
-              autocomplete="off"
-              placeholder="At least 16 characters"
-          /></label>
-          <p class="small">
-            Never reuse a real password. The passphrase is not saved or sent
-            anywhere. Losing it makes an encrypted export unrecoverable.
-          </p>
-          <div class="actions">
-            <button id="encrypt">Encrypt and download</button
-            ><button id="lock" class="secondary">
-              Lock and clear this view
-            </button>
+      <section class="intro" aria-labelledby="intro-title">
+        <div>
+          <h1 id="intro-title">Try a memory<br>you can carry.</h1>
+          <p class="lede">Meet Mira, an invented museum maker. Save her profile in an encrypted file, reopen it, and choose which memories to give an assistant.</p>
+          <p class="demo-note">Fictional example only. Please don’t enter personal information or reuse a real password.</p>
+          <ol class="steps" aria-label="Try the example">
+            <li><a href="#open-example">Open Mira’s profile</a></li>
+            <li><a href="#choose-memories">Choose what to share</a></li>
+            <li><a href="#save-file">Save and reopen</a></li>
+          </ol>
+        </div>
+        <img class="intro-art" src="/brand/state-v1.webp" width="480" height="480" alt="" fetchpriority="high">
+      </section>
+      <noscript><p class="notice">This example needs JavaScript for encryption in your browser. No file is uploaded. You can still read how it works below.</p></noscript>
+      <section class="profile-section" id="open-example" aria-labelledby="profile-title">
+        <div class="section-heading">
+          <div><h2 id="profile-title">Start with Mira.</h2><p id="identity">Open the example to read three invented memories. Nothing is shared automatically.</p></div>
+          <div class="actions"><button id="fixture" disabled>Open Mira’s example</button><button id="lock" class="secondary" disabled>Close this profile</button></div>
+        </div>
+        <p id="message" class="feedback" role="status" aria-live="polite">The example stays in this browser. You choose what leaves it.</p>
+        <details id="perspective-details"><summary>Other fictional perspectives</summary><div id="perspectives"><p>Open the example to read the teacher, visitor and archivist’s views.</p></div></details>
+      </section>
+      <section id="choose-memories" class="work-section" aria-labelledby="choose-title">
+        <h2 id="choose-title">Choose what to share.</h2>
+        <p>Select a memory, read the exact text below, then approve the copy. An assistant receives the selected memories and Mira’s name, voice and boundaries.</p>
+        <div class="selection-layout">
+          <div><h3>Mira’s memories</h3><div id="memories" class="memory-list"><p class="empty">Open Mira’s example above to choose from her memories.</p></div></div>
+          <div class="share-panel">
+            <h3 id="selection-count">No memories selected</h3>
+            <p id="selection-help" class="small">Choose a memory to see exactly what would be copied.</p>
+            <pre id="disclosure-preview" tabindex="0" aria-label="Exact text to copy">Your selection will appear here.</pre>
+            <label class="inline"><input id="consent" type="checkbox" disabled> I’ve read this selection and want to copy it.</label>
+            <button id="copy" disabled>Copy selected memories</button>
+            <p id="share-feedback" class="feedback small">The encrypted file and passphrase are never included.</p>
           </div>
-          <label
-            >Import an encrypted export<input
-              id="import"
-              type="file"
-              accept="application/json,.json" /></label
-          ><button id="unlock" class="secondary">Unlock imported file</button
-          ><label class="inline"
-            ><input id="remember" type="checkbox" /> Save ciphertext on this
-            device for resume</label
-          ><button id="forget" class="secondary">
-            Remove saved ciphertext
-          </button>
-          <p id="message" role="status" aria-live="polite"></p>
-        </section>
-        <section>
-          <h2 id="profile-title">A locked workspace.</h2>
-          <p id="identity">
-            Open the synthetic fixture or import your encrypted demo file.
-          </p>
-          <div id="memories"></div>
-          <details>
-            <summary>Fictional perspectives</summary>
-            <div id="perspectives"></div>
-          </details>
-          <h3>Choose what a model receives.</h3>
-          <p>
-            The selected context is a separate disclosure. The master passphrase
-            and full encrypted vault never belong in a provider prompt.
-          </p>
-          <details open>
-            <summary>Inspect the complete outgoing context</summary>
-            <pre id="disclosure-preview">
-Unlock a fictional fixture and select memories to see the exact disclosure.</pre>
-          </details>
-          <label class="inline"
-            ><input id="consent" type="checkbox" /> I reviewed the selected
-            fictional context and want to copy it.</label
-          ><button id="copy">Copy reviewed selection</button
-          ><label
-            >Reviewed fictional checkpoint<textarea
-              id="checkpoint"
-              maxlength="2000"
-              placeholder="Keep source and uncertainty clear."
-            ></textarea></label
-          ><button id="checkpoint-save" class="secondary">
-            Add reviewed checkpoint
-          </button>
-          <div id="checkpoints"></div>
-        </section>
-      </div>
-      <section class="rules">
-        <h2>Local encryption. Explicit disclosure.</h2>
-        <p>
-          AES-256-GCM, fresh salt and nonce per export, PBKDF2-SHA256 with
-          600,000 iterations, authenticated format version. The YAML-compatible
-          JSON document is encrypted before it leaves this page. Wrong
-          passphrases and modified ciphertext fail closed.
-        </p>
-        <p>
-          This tool makes no model or storage-server requests. Opt-in
-          persistence stores ciphertext only. Clipboard content is deliberately
-          plaintext after you approve it; your operating system and destination
-          model then control that copy. Browser memory erasure cannot be
-          guaranteed, and imported fictional text is context, never authority.
-        </p>
-        <p>
-          Device compromise, malicious extensions, passphrase recovery, full
-          multi-device sync and independent security assurance remain open
-          gates.
-          <a href="https://github.com/loftwah/app-composer-state"
-            >Inspect the independent MIT source</a
-          >.
-        </p>
+        </div>
+      </section>
+      <section id="save-file" class="work-section" aria-labelledby="save-title">
+        <h2 id="save-title">Save it. Reopen it here.</h2>
+        <p>Download Mira’s whole profile as an encrypted file. Keep its passphrase separately; there’s no password reset or online backup.</p>
+        <div class="file-layout">
+          <div>
+            <label for="passphrase">Example passphrase</label><input id="passphrase" type="password" minlength="16" maxlength="512" autocomplete="off" aria-describedby="passphrase-help" placeholder="At least 16 characters" disabled>
+            <p id="passphrase-help" class="small">Use a made-up phrase of at least 16 characters. It stays in this browser.</p>
+            <label class="inline"><input id="remember" type="checkbox" disabled> Keep an encrypted copy on this device for next time.</label>
+            <button id="encrypt" disabled>Encrypt and download</button>
+          </div>
+          <div class="restore-panel">
+            <h3>Already have a demo file?</h3>
+            <p class="small">Choose the encrypted JSON download, then enter its original passphrase in the field beside it.</p>
+            <label for="import">Open an encrypted demo file</label><input id="import" type="file" accept="application/json,.json" disabled>
+            <div class="actions"><button id="unlock" class="secondary" disabled>Reopen encrypted profile</button><button id="forget" class="secondary" disabled>Remove saved copy</button></div>
+            <p class="small">Removing the saved copy leaves downloaded files and the open profile alone. Close the profile separately to clear this view.</p>
+          </div>
+        </div>
+        <p id="file-feedback" class="feedback">Try downloading, closing the profile and reopening your file with the same passphrase.</p>
+        <details class="checkpoint-details"><summary>Keep a note for next time</summary>
+          <p class="small">Add an invented update to Mira’s profile. Notes are saved in the next encrypted download; they aren’t included when you copy memories.</p>
+          <label for="checkpoint">Fictional update</label><textarea id="checkpoint" maxlength="2000" placeholder="For example: Mira will try larger captions in her museum exhibit." disabled></textarea>
+          <button id="checkpoint-save" class="secondary" disabled>Add this note</button><div id="checkpoints"></div>
+        </details>
+      </section>
+      <section class="rules" aria-labelledby="how-title">
+        <h2 id="how-title">Where does everything go?</h2>
+        <dl class="boundaries">
+          <div><dt>The profile</dt><dd>Stays in this browser until you close it. A download contains encrypted data; saving on this device is optional.</dd></div>
+          <div><dt>The passphrase</dt><dd>Stays with you. Keep it separately from the file. If it’s lost, this example cannot recover the profile.</dd></div>
+          <div><dt>A copied selection</dt><dd>Goes to your clipboard only after review. Your device and the assistant you paste it into then control that copy.</dd></div>
+        </dl>
+        <details><summary>Encryption and the limits of this example</summary>
+          <p>AES-256-GCM, a fresh salt and nonce per export, and PBKDF2-SHA256 with 600,000 iterations protect the versioned JSON file. JSON is also a YAML 1.2 subset. A wrong passphrase or changed ciphertext cannot unlock it.</p>
+          <p>The browser makes no model or storage-server requests. An optional server-side home-page count includes no profile or visitor details. Clearing this view cannot guarantee erasure from browser or operating-system memory. Device compromise, extensions, cross-device recovery and independent security review remain unresolved.</p>
+          <p>This demonstration carries assistant context. It does not sign you into App Composer or provide a shared login for games. Provider behaviour can differ. No real private records, including Emilio data, are used or supported.</p>
+          <p><a href="https://github.com/loftwah/app-composer-state">Read the independent MIT source</a> · <a href="https://github.com/loftwah/app-composer/issues/31">Security requirements</a></p>
+        </details>
       </section>
     </main>
     <footer>
-      Original synthetic fixture and local encryption demo · Reviewed 13 October
+      Fictional assistant memory example · Reviewed 14 October
       2026
     </footer>
     <script src="/brand/navigation.js"></script>

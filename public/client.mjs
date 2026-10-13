@@ -1,184 +1,129 @@
-import {
-  fictional,
-  encryptDocument,
-  decryptDocument,
-  disclosure,
-  reviewedCheckpoint,
-} from "./vault.mjs";
-let current = null,
-  envelope = null;
-const $ = (id) => document.getElementById(id),
-  key = "portable-state:synthetic:v1";
-const message = $("message");
-const showMessage = (e) =>
-  (message.textContent = e instanceof Error ? e.message : String(e));
-function preview() {
-  const ids = Array.from(
-    document.querySelectorAll("#memories input:checked"),
-  ).map((c) => c.value);
-  $("disclosure-preview").textContent = current
-    ? JSON.stringify(disclosure(current, ids), null, 2)
-    : "Unlock a fictional fixture to inspect a disclosure.";
-  $("consent").checked = false;
+import {fictional, encryptDocument, decryptDocument, disclosure, reviewedCheckpoint} from './vault.mjs';
+let current = null, envelope = null, busy = false, savedCopy = false;
+const $ = id => document.getElementById(id), key = 'portable-state:synthetic:v1';
+const selected = () => [...document.querySelectorAll('#memories input:checked')].map(c => c.value);
+function showMessage(value, scope) {
+  const text = value instanceof Error ? value.message : String(value);
+  $('message').textContent = text;
+  if (scope) $(scope+'-feedback').textContent = text;
 }
-$("memories").onchange = preview;
+function syncControls() {
+  const count = selected().length, phrase = $('passphrase').value;
+  $('fixture').disabled = busy;
+  $('lock').disabled = busy || !current;
+  $('passphrase').disabled = busy || (!current && !envelope);
+  $('remember').disabled = busy || !current;
+  $('import').disabled = busy;
+  $('unlock').disabled = busy || !envelope || phrase.length < 16;
+  $('encrypt').disabled = busy || !current || phrase.length < 16;
+  $('forget').disabled = busy || !savedCopy;
+  $('consent').disabled = busy || !current || !count;
+  $('copy').disabled = busy || !current || !count || !$('consent').checked;
+  $('checkpoint').disabled = busy || !current;
+  $('checkpoint-save').disabled = busy || !current || !$('checkpoint').value.trim();
+  for (const input of document.querySelectorAll('#memories input')) input.disabled = busy;
+}
+function preview() {
+  const ids = selected();
+  $('selection-count').textContent = ids.length ? `${ids.length} ${ids.length === 1 ? 'memory' : 'memories'} selected` : 'No memories selected';
+  $('selection-help').textContent = ids.length ? 'This is the complete text that will go to your clipboard.' : 'Choose a memory to see exactly what would be copied.';
+  $('disclosure-preview').textContent = current && ids.length ? JSON.stringify(disclosure(current, ids), null, 2) : 'Your selection will appear here.';
+  $('consent').checked = false;
+  $('share-feedback').textContent = 'The encrypted file and passphrase are never included.';
+  syncControls();
+}
+$('memories').onchange = preview;
+$('passphrase').oninput = syncControls;
+$('checkpoint').oninput = syncControls;
+$('consent').onchange = syncControls;
 function render() {
-  for (const id of ["memories", "perspectives", "checkpoints"])
-    $(id).replaceChildren();
-  $("profile-title").textContent =
-    current?.profile.name ?? "A locked workspace.";
-  $("identity").textContent =
-    current?.profile.identity ??
-    "Open the synthetic fixture or import your encrypted demo file.";
+  for (const id of ['memories', 'perspectives', 'checkpoints']) $(id).replaceChildren();
+  $('profile-title').textContent = current?.profile.name ?? 'Start with Mira.';
+  $('identity').textContent = current?.profile.identity ?? 'Open the example to read three invented memories. Nothing is shared automatically.';
   if (!current) {
-    preview();
-    return;
+    const empty = document.createElement('p'); empty.className = 'empty';
+    empty.textContent = 'Open Mira’s example above, or reopen an encrypted demo file below.';
+    $('memories').append(empty);
+    const hint = document.createElement('p'); hint.textContent = 'Open the example to read the teacher, visitor and archivist’s views.';
+    $('perspectives').append(hint);
+    preview(); return;
   }
   for (const m of current.memories) {
-    const label = document.createElement("label");
-    label.className = "memory";
-    const check = document.createElement("input");
-    check.type = "checkbox";
-    check.value = m.id;
-    const content = document.createElement("span"),
-      title = document.createElement("strong"),
-      text = document.createElement("p"),
-      source = document.createElement("small");
-    title.textContent = m.subject;
-    text.textContent = m.text;
-    source.textContent = m.source + " · " + m.confidence;
-    content.append(title, text, source);
-    label.append(check, content);
-    $("memories").append(label);
+    const label = document.createElement('label'); label.className = 'memory';
+    const check = document.createElement('input'); check.type = 'checkbox'; check.value = m.id;
+    const content = document.createElement('span'), title = document.createElement('strong'), text = document.createElement('p'), source = document.createElement('small');
+    title.textContent = m.subject; text.textContent = m.text;
+    source.textContent = m.source + ' · ' + (m.confidence === 'open' ? 'Still undecided' : 'Invented detail');
+    content.append(title, text, source); label.append(check, content); $('memories').append(label);
   }
   for (const p of current.perspectives) {
-    const el = document.createElement("p");
-    el.textContent = p.role + ": " + p.view;
-    $("perspectives").append(el);
+    const el = document.createElement('p'), name = document.createElement('strong'); name.textContent = p.role + '. ';
+    el.append(name, document.createTextNode(p.view)); $('perspectives').append(el);
   }
   for (const p of current.checkpoints) {
-    const el = document.createElement("p");
-    el.textContent = p.status + ": " + p.text;
-    $("checkpoints").append(el);
+    const el = document.createElement('p'); el.textContent = 'Reviewed here: ' + p.text; $('checkpoints').append(el);
   }
   preview();
 }
-async function bounded(action) {
-  const buttons = Array.from(document.querySelectorAll("button"));
-  buttons.forEach((b) => (b.disabled = true));
-  try {
-    await action();
-  } catch (e) {
-    showMessage(e);
-  } finally {
-    buttons.forEach((b) => (b.disabled = false));
-  }
+async function bounded(action, scope = 'file') {
+  if (busy) return;
+  busy = true; syncControls();
+  $('main').setAttribute('aria-busy', 'true');
+  showMessage(scope === 'share' ? 'Copying your reviewed selection…' : 'Working in this browser…', scope);
+  try { await action(); } catch (e) { showMessage(e, scope); }
+  finally { busy = false; $('main').removeAttribute('aria-busy'); syncControls(); }
 }
-$("fixture").onclick = () => {
-  current = structuredClone(fictional);
-  render();
-  showMessage("Fictional fixture loaded locally. No real personal records.");
+$('fixture').onclick = () => {
+  current = structuredClone(fictional); $('checkpoint').value = ''; render();
+  showMessage('Mira’s example is open. Choose a memory below; nothing has been shared.');
 };
-$("lock").onclick = () => {
-  current = null;
-  $("passphrase").value = "";
-  $("checkpoint").value = "";
-  $("consent").checked = false;
-  render();
-  showMessage(
-    "View locked and plaintext references cleared. JavaScript/OS memory erasure is not guaranteed.",
-  );
+$('lock').onclick = () => {
+  current = null; $('passphrase').value = ''; $('checkpoint').value = ''; render();
+  showMessage('The profile is closed and this view is cleared. Your encrypted file can be reopened below. Browser memory erasure cannot be guaranteed.');
 };
-$("encrypt").onclick = () =>
-  bounded(async () => {
-    if (!current) throw new Error("Open a fictional document first.");
-    envelope = await encryptDocument(current, $("passphrase").value);
-    const blob = new Blob([JSON.stringify(envelope, null, 2)], {
-        type: "application/json",
-      }),
-      url = URL.createObjectURL(blob),
-      a = document.createElement("a");
-    a.href = url;
-    a.download = "mira-vale.state.enc.json";
-    a.click();
-    URL.revokeObjectURL(url);
-    if ($("remember").checked)
-      localStorage.setItem(key, JSON.stringify(envelope));
-    $("passphrase").value = "";
-    showMessage(
-      "Encrypted export downloaded. Keep its passphrase separately. Only ciphertext can be saved.",
-    );
-  });
-$("import").onchange = () =>
-  bounded(async () => {
-    const f = $("import").files[0];
-    if (!f) return;
-    if (f.size > 200000)
-      throw new Error("Use an encrypted envelope under 200 KB.");
-    envelope = JSON.parse(await f.text());
-    current = null;
-    render();
-    showMessage(
-      "Encrypted file loaded. Enter its demo passphrase to unlock; no file was uploaded.",
-    );
-  });
-$("unlock").onclick = () =>
-  bounded(async () => {
-    if (!envelope) throw new Error("Import or resume an encrypted file first.");
-    current = await decryptDocument(envelope, $("passphrase").value);
-    $("passphrase").value = "";
-    render();
-    showMessage("Fictional profile unlocked locally. Nothing was disclosed.");
-  });
-$("forget").onclick = () => {
-  localStorage.removeItem(key);
-  envelope = null;
-  showMessage(
-    "Saved ciphertext removed. Existing downloaded exports remain yours.",
-  );
-};
-$("copy").onclick = () =>
-  bounded(async () => {
-    if (!current || !$("consent").checked)
-      throw new Error(
-        "Review the selected context and explicitly approve disclosure.",
-      );
-    const ids = Array.from(
-      document.querySelectorAll("#memories input:checked"),
-    ).map((c) => c.value);
-    if (!ids.length) throw new Error("Select at least one fictional memory.");
-    await navigator.clipboard.writeText(
-      JSON.stringify(disclosure(current, ids), null, 2),
-    );
-    $("consent").checked = false;
-    showMessage(
-      "Reviewed fictional context copied. No passphrase or full vault is included.",
-    );
-  });
-$("checkpoint-save").onclick = () => {
-  try {
-    if (!current) throw new Error("Unlock a fictional profile first.");
-    current = reviewedCheckpoint(current, $("checkpoint").value);
-    $("checkpoint").value = "";
-    render();
-    showMessage(
-      "Reviewed checkpoint added in memory. Encrypt again to retain it.",
-    );
-  } catch (e) {
-    showMessage(e);
+$('encrypt').onclick = () => bounded(async () => {
+  if (!current) throw new Error('Open Mira’s example first.');
+  envelope = await encryptDocument(current, $('passphrase').value);
+  const blob = new Blob([JSON.stringify(envelope, null, 2)], {type:'application/json'}), url = URL.createObjectURL(blob), a = document.createElement('a');
+  a.href = url; a.download = 'mira-vale.state.enc.json'; a.click(); URL.revokeObjectURL(url);
+  $('passphrase').value = '';
+  if ($('remember').checked) {
+    try { localStorage.setItem(key, JSON.stringify(envelope)); savedCopy = true; }
+    catch { showMessage('The encrypted file was downloaded, but this browser could not keep a saved copy. Keep the download and its passphrase separately.', 'file'); return; }
   }
+  showMessage('Encrypted file downloaded. Keep the passphrase separately. Close the profile, then try reopening your file.', 'file');
+});
+$('import').onchange = () => bounded(async () => {
+  const f = $('import').files[0]; if (!f) return;
+  if (f.size > 200000) throw new Error('Choose an encrypted demo file smaller than 200 KB.');
+  const imported = JSON.parse(await f.text());
+  envelope = imported; current = null; $('passphrase').value = ''; $('checkpoint').value = ''; render();
+  showMessage('File opened in this browser. Enter its original passphrase, then choose Reopen encrypted profile. Nothing was uploaded.', 'file');
+});
+$('unlock').onclick = () => bounded(async () => {
+  if (!envelope) throw new Error('Choose an encrypted demo file first.');
+  current = await decryptDocument(envelope, $('passphrase').value); $('passphrase').value = ''; render();
+  showMessage('Mira’s profile is open again. Choose memories above to copy; nothing has been shared.', 'file');
+});
+$('forget').onclick = () => {
+  try { localStorage.removeItem(key); savedCopy = false; syncControls(); showMessage('Saved copy removed from this device. Your open profile and downloaded files are unchanged.', 'file'); }
+  catch { showMessage('This browser could not remove the saved copy. Check its storage settings and try again.', 'file'); }
+};
+$('copy').onclick = () => bounded(async () => {
+  if (!current || !$('consent').checked || !selected().length) throw new Error('Select a memory and approve the exact text before copying.');
+  await navigator.clipboard.writeText(JSON.stringify(disclosure(current, selected()), null, 2));
+  $('consent').checked = false;
+  showMessage('Selection copied. Paste it into an assistant if you want to share it. No passphrase, encrypted file or unselected memories are included.', 'share');
+}, 'share');
+$('checkpoint-save').onclick = () => {
+  try {
+    if (!current) throw new Error('Open Mira’s example first.');
+    current = reviewedCheckpoint(current, $('checkpoint').value); $('checkpoint').value = ''; render();
+    showMessage('Note added to the open profile. Encrypt and download again to keep it.', 'file');
+  } catch (e) { showMessage(e, 'file'); }
 };
 try {
-  const saved = localStorage.getItem(key);
-  if (saved) {
-    envelope = JSON.parse(saved);
-    showMessage(
-      "Saved ciphertext resumed. Enter its demo passphrase to unlock.",
-    );
-  }
-} catch {
-  showMessage(
-    "Saved ciphertext is unreadable. The original has not been changed.",
-  );
-}
+  const saved = localStorage.getItem(key); savedCopy = Boolean(saved);
+  if (saved) { envelope = JSON.parse(saved); showMessage('An encrypted copy is saved on this device. Enter its passphrase below to reopen it.', 'file'); }
+} catch { showMessage('The saved copy could not be read. It has not been changed; you can choose a downloaded file instead.', 'file'); }
 render();
