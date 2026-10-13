@@ -1,0 +1,13 @@
+{
+  "contract": 1,
+  "id": "portable-ai-state",
+  "runtime": "cloudflare-worker",
+  "dataVersion": 1,
+  "routes": [
+    "/state"
+  ],
+  "capabilities": [],
+  "configuration": {},
+  "repository": "https://github.com/loftwah/app-composer-state",
+  "syntheticOnly": true
+}
