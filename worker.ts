@@ -1,5 +1,6 @@
+import {health,publish,pageEvent,type PublisherEnv} from "./lib/publisher.mjs";
 declare const BUILD_SHA: string;
-export default {
+const app = {
   fetch(req: Request, env: any) {
     if (new URL(req.url).pathname === "/build.json")
       return Response.json(
@@ -18,3 +19,8 @@ export default {
     });
   },
 };
+
+export default {async fetch(req:Request,env:PublisherEnv & {ASSETS:any},context:any){
+ const probe=health(req,'/healthz','state',BUILD_SHA);if(probe)return probe;
+ const response=await app.fetch(req,env);if(pageEvent(req,response)==='app_open')publish(env,context,req,'app_open');return response;
+}};
