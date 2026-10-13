@@ -1,1 +1,13 @@
-{"name": "app-composer-state", "private": true, "type": "module", "scripts": {"test": "node --test tests/*.test.mjs", "dev": "wrangler dev", "deploy": "node deploy.mjs"}, "devDependencies": {"wrangler": "4.143.1"}}
+{
+  "name": "app-composer-state",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "dev": "wrangler dev",
+    "deploy": "node deploy.mjs"
+  },
+  "devDependencies": {
+    "wrangler": "4.143.1"
+  }
+}

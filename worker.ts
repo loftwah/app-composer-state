@@ -1,1 +1,20 @@
-declare const BUILD_SHA:string;export default {fetch(req:Request,env:any){if(new URL(req.url).pathname==='/build.json')return Response.json({app:'portable-ai-state',commit:BUILD_SHA,syntheticOnly:true},{headers:{'Cache-Control':'no-store'}});return env.ASSETS.fetch(req).then((res:Response)=>{const r=new Response(res.body,res);r.headers.set('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'none'; img-src 'self'; font-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'");r.headers.set('X-Content-Type-Options','nosniff');r.headers.set('Cache-Control','no-store');return r;});}};
+declare const BUILD_SHA: string;
+export default {
+  fetch(req: Request, env: any) {
+    if (new URL(req.url).pathname === "/build.json")
+      return Response.json(
+        { app: "portable-ai-state", commit: BUILD_SHA, syntheticOnly: true },
+        { headers: { "Cache-Control": "no-store" } },
+      );
+    return env.ASSETS.fetch(req).then((res: Response) => {
+      const r = new Response(res.body, res);
+      r.headers.set(
+        "Content-Security-Policy",
+        "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'none'; img-src 'self'; font-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'",
+      );
+      r.headers.set("X-Content-Type-Options", "nosniff");
+      r.headers.set("Cache-Control", "no-store, no-transform");
+      return r;
+    });
+  },
+};
