@@ -1,0 +1,22 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+const origin='https://ai.loftwah.com';
+const expected=readFileSync(new URL('../public/index.html',import.meta.url),'utf8');
+const tags=html=>Object.fromEntries([...html.matchAll(/<meta\s+[^>]*>/g)].map(([tag])=>[tag.match(/(?:name|property)="([^"]+)"/)?.[1],tag.match(/content="([^"]*)"/)?.[1]]));
+const keys=['description','og:title','og:description','og:url','og:image','og:image:type','og:image:width','og:image:height','og:image:alt','twitter:card','twitter:title','twitter:description','twitter:image','twitter:image:alt'];
+const wanted=tags(expected);
+const headers={'User-Agent':'Twitterbot/1.0','X-Composer-Verification':'1'};
+const response=await fetch(origin+'/',{headers,redirect:'manual',signal:AbortSignal.timeout(10000)});
+assert.equal(response.status,200,'Public card HTML unavailable to Twitterbot probe');
+assert(!response.headers.get('cf-mitigated'),'Crawler probe was challenged');
+const html=await response.text(),actual=tags(html);
+for(const key of keys)assert.equal(actual[key],wanted[key],'Live sharing metadata differs: '+key);
+assert.match(html,/<link rel="canonical" href="https:\/\/ai\.loftwah\.com\/"/);
+const image=new URL(actual['twitter:image']);assert.equal(image.origin,origin);
+const artwork=await fetch(image,{headers,redirect:'manual',signal:AbortSignal.timeout(10000)});
+assert.equal(artwork.status,200,'Public sharing image unavailable');
+assert.match(artwork.headers.get('content-type')??'',/^image\/jpeg/);
+const bytes=Buffer.from(await artwork.arrayBuffer());
+assert(bytes.equals(readFileSync(new URL('../public'+image.pathname,import.meta.url))),'Live sharing image differs from reviewed JPEG');
+for(const path of ['/robots.txt','/sitemap.xml']){const r=await fetch(origin+path,{headers,redirect:'manual',signal:AbortSignal.timeout(10000)});assert.equal(r.status,200);const text=await r.text();assert(text.includes(path==='/robots.txt'?'Sitemap: '+origin+'/sitemap.xml':'<loc>'+origin+'/</loc>'));}
+console.log(JSON.stringify({crawlerProbe:'Twitterbot/1.0',html:200,image:200,imageBytes:bytes.length,metadataMatches:true,actualXRenderingVerified:false}));

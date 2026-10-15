@@ -12,7 +12,8 @@ h1 {font-size:clamp(2.5rem,4vw,3.5rem);max-width:22ch;margin:0 0 20px}
 h2 {font-size:1.7rem;margin:0 0 12px}
 h3 {font-size:1.15rem;margin:0 0 12px;line-height:1.35}
 p {margin:0 0 16px;max-width:72ch}
-a {color:var(--accent);text-underline-offset:4px}
+a {color:var(--accent);text-decoration:none;font-weight:600}
+a:hover {color:var(--foreground)}
 .intro {display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:64px;align-items:center;padding:24px 0 36px}
 .intro-art {display:block;width:100%;height:auto;aspect-ratio:1;border-radius:16px}
 .lede {font-size:19px;max-width:54ch}
