@@ -34,4 +34,5 @@ for (let attempt = 0; attempt < 12; attempt++) {
   await new Promise((resolve) => setTimeout(resolve, 1500));
 }
 if (!verified) throw new Error("Live source identity did not converge");
+execFileSync(process.execPath, ["scripts/verify-sharing.mjs"], { stdio: "inherit" });
 console.log("Verified live state " + sha);
