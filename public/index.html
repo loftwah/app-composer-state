@@ -29,7 +29,7 @@
     <link rel="preload" href="/space.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/brand/navigation.css" />
     <link rel="stylesheet" href="/style.css" />
-  </head>
+  <link rel="stylesheet" href="/brand/page-share.css"></head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
     <header>
@@ -178,12 +178,12 @@
         </details>
       </section>
     </main>
-    <footer>
+    <footer><div class="public-page-share" data-page-share hidden><button type="button" class="secondary" data-page-native hidden>Share page</button><button type="button" class="secondary" data-page-copy hidden>Copy page link</button><p role="status" aria-live="polite" data-share-status></p><label data-share-fallback hidden>Published page URL<input readonly aria-label="Published page URL"></label></div>
       Fictional assistant memory example · Reviewed 14 October
       2026
     </footer>
     <script src="/brand/navigation.js"></script>
     <script type="module" src="/client.mjs"></script>
   <script type="module" src="/brand/page-performance.mjs"></script>
-</body>
+<script type="module" src="/brand/page-share.mjs"></script></body>
 </html>
