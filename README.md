@@ -39,3 +39,5 @@ The original generated keepsake artwork is copied from the Composer-owned source
 Reviewed 16 October 2026. Carry / forward has its own versioned 1200×630 JPEG card and matching page, Open Graph and X title/description. Source checks validate the metadata and actual JPEG dimensions. The normal deployment also verifies public HTML, exact reviewed image bytes, robots and sitemap with a marked Twitterbot user-agent probe. A successful probe confirms our live response; it does not prove X fetched or rendered the card. Actual platform preview acceptance is a separate observation. Artwork provenance is in `public/brand/carry-forward-share-v2.provenance.json`.
 
 MP’s 16 October 2026 direction removes underlined text links. Links retain accent/weight treatment, hover feedback and visible keyboard focus.
+
+The shared header keeps theme switching as a quiet current-mode sun/moon icon. Preserve the stable Dark theme accessible toggle name, pressed state, keyboard focus, 44px target and existing saved-preference key. Keep the secondary control class so light-theme primary-button rules cannot override its foreground.
