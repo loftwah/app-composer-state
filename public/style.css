@@ -1,12 +1,14 @@
 :root {color-scheme:dark;--background:#19181e;--foreground:#f3f0f7;--border:#665b72;--focus:#ff9b55;--surface:#29242f;--field:#201d25;--accent:#ccb0ed;--muted:#b9b1c2;--fg:var(--foreground);--control:#887b93}
 :root[data-theme=light] {color-scheme:light;--background:#faf8fc;--foreground:#2b243b;--border:#93809e;--focus:#a34315;--surface:#e6dcf0;--field:#fff;--accent:#594272;--muted:#62596c;--control:#93809e}
-@font-face {font-family:Space;src:url('/space.woff2') format('woff2');font-display:swap}
+@font-face {font-family:Space;src:url('/brand/space.woff2') format('woff2');font-display:swap}
 * {box-sizing:border-box}
 html {scroll-padding-top:24px}
 body {margin:0;background:var(--background);color:var(--foreground);font:16px/1.6 system-ui}
 header,main,footer {max-width:1248px;margin:auto;padding:24px 32px}
 header {display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;border-bottom:1px solid var(--border)}
 header strong {font:500 22px Space,sans-serif}
+header .brand {display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+header .brand img {background:#f4f0e8;border-radius:6px}
 h1,h2,h3 {font-family:Space,sans-serif;line-height:1.15;letter-spacing:-.025em;font-weight:500;text-wrap:balance}
 h1 {font-size:clamp(2.5rem,4vw,3.5rem);max-width:22ch;margin:0 0 20px}
 h2 {font-size:1.7rem;margin:0 0 12px}
@@ -15,7 +17,7 @@ p {margin:0 0 16px;max-width:72ch}
 a {color:var(--accent);text-decoration:none;font-weight:600}
 a:hover {color:var(--foreground)}
 .intro {display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:64px;align-items:center;padding:24px 0 36px}
-.intro-art {display:block;width:100%;height:auto;aspect-ratio:1;border-radius:16px}
+.intro-art {display:block;width:100%;height:auto;aspect-ratio:1;border:1px solid var(--border);border-radius:16px}
 .lede {font-size:19px;max-width:54ch}
 .demo-note,.small,small {font-size:14px;color:var(--muted)}
 .steps {display:flex;flex-wrap:wrap;gap:8px 28px;padding-left:20px;margin:24px 0 0;font-size:14px}

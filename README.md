@@ -8,7 +8,11 @@ Ciphertext persistence is opt-in. Browser/OS/extension compromise and guaranteed
 
 ## Public project standard
 
-Reviewed 13 October 2026. The app supplies saved reader dark/light themes, native app navigation with Ctrl/Cmd+K and ordinary links, visible keyboard focus, phone layouts, favicon/touch icon and page-specific social metadata. Original generated App Composer artwork is retained with its prompt; functional icons remain vectors. These features do not widen signup, owner access or disclosure permissions.
+Reviewed 13 October 2026; artwork, naming and repetition reviewed 17 October 2026. The app supplies saved reader dark/light themes, native app navigation with Ctrl/Cmd+K and ordinary links, visible keyboard focus, phone layouts, favicon/touch icon and page-specific social metadata. These features do not widen signup, owner access or disclosure permissions.
+
+Artwork: the hero, the default social card, the favicon and the apple-touch icon are this app's own reviewed cut-paper set — a graphite travelling case on a violet route line carrying one chosen tag and one plain tag. `public/brand/carry-forward-art-v3.PROVENANCE.txt` records the master, every derivative and the SHA-256 of each file. Before this release `public/mark.svg` and `public/brand/mark.svg` were byte-identical to App Composer's own mark, so the app wore the parent product's logo; it now has its own. The bundled font and its OFL licence live once, under `public/brand`, and the display font is preloaded from that same file.
+
+One statement per idea: the introduction describes what the example is, the numbered list is the only "what to do" list, each section heading is distinct from the step that points at it, and the passphrase is explained once in the boundaries list rather than restated beside the field. The switcher lists every app by its own name, so this app appears as Carry / forward everywhere, never as Portable AI State.
 
 Contributions: [Contributing](CONTRIBUTING.md), [Code of Conduct](CODE_OF_CONDUCT.md), [Security](SECURITY.md), [Accessibility](ACCESSIBILITY.md). Physical-device, screen-reader and full platform sharing acceptance remain distinct from browser checks.
 
@@ -26,17 +30,17 @@ Add `?vitals=1` to the public page, then open “Page performance” for local L
 
 Reviewed 14 October 2026. [Open Carry / forward](https://ai.loftwah.com).
 
-1. Choose **Open Mira’s example** to read the invented museum-maker profile.
+1. Choose **Open Mira’s example** to read the invented museum-maker profile (the same action as the page’s first step).
 2. Tick a memory. Review the exact outgoing JSON, approve it, then choose **Copy selected memories**. Changing the selection clears approval. Nothing goes to an assistant until you paste it there.
 3. Enter a made-up passphrase of at least 16 characters and **Encrypt and download**. Keep the passphrase separately. Saving an encrypted copy on this device is optional.
 4. **Close this profile**, choose the downloaded JSON file and enter the same passphrase to **Reopen encrypted profile**. A wrong passphrase exposes no profile.
 5. Optional: add an invented update under **Keep a note for next time**, then download again to retain it. **Remove saved copy** only removes browser persistence; it leaves the open profile and downloaded files alone.
 
-The original generated keepsake artwork is copied from the Composer-owned source with its provenance. Encryption implementation and file format remain unchanged. The saved reader theme applies before paint. This example is assistant context, not a shared account login or an authenticated real-data vault; security/provider/recovery acceptance remains open.
+The reviewed cut-paper artwork and its provenance are recorded in public/brand/carry-forward-art-v3.PROVENANCE.txt. Encryption implementation and file format remain unchanged. The saved reader theme applies before paint. This example is assistant context, not a shared account login or an authenticated real-data vault; security/provider/recovery acceptance remains open.
 
 ## Sharing release check
 
-Reviewed 16 October 2026. Carry / forward has its own versioned 1200×630 JPEG card and matching page, Open Graph and X title/description. Source checks validate the metadata and actual JPEG dimensions. The normal deployment also verifies public HTML, exact reviewed image bytes, robots and sitemap with a marked Twitterbot user-agent probe. A successful probe confirms our live response; it does not prove X fetched or rendered the card. Actual platform preview acceptance is a separate observation. Artwork provenance is in `public/brand/carry-forward-share-v2.provenance.json`.
+Reviewed 16 October 2026. Carry / forward has its own versioned 1200×630 JPEG card and matching page, Open Graph and X title/description. Source checks validate the metadata and actual JPEG dimensions. The normal deployment also verifies public HTML, exact reviewed image bytes, robots and sitemap with a marked Twitterbot user-agent probe. A successful probe confirms our live response; it does not prove X fetched or rendered the card. Actual platform preview acceptance is a separate observation. Artwork provenance is in `public/brand/carry-forward-art-v3.PROVENANCE.txt`.
 
 MP’s 16 October 2026 direction removes underlined text links. Links retain accent/weight treatment, hover feedback and visible keyboard focus.
 
