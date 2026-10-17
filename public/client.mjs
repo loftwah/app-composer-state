@@ -26,7 +26,7 @@ function syncControls() {
 function preview() {
   const ids = selected();
   $('selection-count').textContent = ids.length ? `${ids.length} ${ids.length === 1 ? 'memory' : 'memories'} selected` : 'No memories selected';
-  $('selection-help').textContent = ids.length ? 'This is the complete text that will go to your clipboard.' : 'Choose a memory to see exactly what would be copied.';
+  $('selection-help').textContent = ids.length ? 'This is the complete text that will go to your clipboard.' : 'The exact text you approve appears here.';
   $('disclosure-preview').textContent = current && ids.length ? JSON.stringify(disclosure(current, ids), null, 2) : 'Your selection will appear here.';
   $('consent').checked = false;
   $('share-feedback').textContent = 'The encrypted file and passphrase are never included.';
@@ -42,7 +42,7 @@ function render() {
   $('identity').textContent = current?.profile.identity ?? 'Open the example to read three invented memories. Nothing is shared automatically.';
   if (!current) {
     const empty = document.createElement('p'); empty.className = 'empty';
-    empty.textContent = 'Open Mira’s example above, or reopen an encrypted demo file below.';
+    empty.textContent = 'Open Mira’s example above, or reopen a saved example file below.';
     $('memories').append(empty);
     const hint = document.createElement('p'); hint.textContent = 'Open the example to read the teacher, visitor and archivist’s views.';
     $('perspectives').append(hint);
@@ -95,13 +95,13 @@ $('encrypt').onclick = () => bounded(async () => {
 });
 $('import').onchange = () => bounded(async () => {
   const f = $('import').files[0]; if (!f) return;
-  if (f.size > 200000) throw new Error('Choose an encrypted demo file smaller than 200 KB.');
+  if (f.size > 200000) throw new Error('Choose an encrypted example file smaller than 200 KB.');
   const imported = JSON.parse(await f.text());
   envelope = imported; current = null; $('passphrase').value = ''; $('checkpoint').value = ''; render();
   showMessage('File opened in this browser. Enter its original passphrase, then choose Reopen encrypted profile. Nothing was uploaded.', 'file');
 });
 $('unlock').onclick = () => bounded(async () => {
-  if (!envelope) throw new Error('Choose an encrypted demo file first.');
+  if (!envelope) throw new Error('Choose an encrypted example file first.');
   current = await decryptDocument(envelope, $('passphrase').value); $('passphrase').value = ''; render();
   showMessage('Mira’s profile is open again. Choose memories above to copy; nothing has been shared.', 'file');
 });

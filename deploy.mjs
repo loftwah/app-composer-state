@@ -34,5 +34,18 @@ for (let attempt = 0; attempt < 12; attempt++) {
   await new Promise((resolve) => setTimeout(resolve, 1500));
 }
 if (!verified) throw new Error("Live source identity did not converge");
-execFileSync(process.execPath, ["scripts/verify-sharing.mjs"], { stdio: "inherit" });
+// Assets can briefly 404 while a new deployment propagates to the edge, so retry
+// the sharing probe instead of failing on a cold edge.
+let sharingVerified = false;
+for (let attempt = 0; attempt < 8; attempt++) {
+  try {
+    execFileSync(process.execPath, ["scripts/verify-sharing.mjs"], { stdio: "inherit" });
+    sharingVerified = true;
+    break;
+  } catch (error) {
+    if (attempt === 7) throw error;
+  }
+  await new Promise((resolve) => setTimeout(resolve, 2500));
+}
+if (!sharingVerified) throw new Error("Live sharing card did not converge");
 console.log("Verified live state " + sha);
