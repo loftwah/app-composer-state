@@ -9,7 +9,8 @@ if (
   throw new Error("Production requires exact reviewed pushed main");
 if (execFileSync("git", ["status", "--porcelain"], { encoding: "utf8" }).trim())
   throw new Error("Commit source before deploying");
-execFileSync("pnpm", ["test"], { stdio: "inherit" });
+execFileSync("pnpm", ["check"], { stdio: "inherit" });
+execFileSync("pnpm", ["build"], { stdio: "inherit" });
 const sha = execFileSync("git", ["rev-parse", "HEAD"], {
   encoding: "utf8",
 }).trim();

@@ -1,4 +1,6 @@
 # Carry / forward
+[Development commands and checked source map](ENGINEERING.md).
+
 
 Independent synthetic-only Portable AI State demo. Reviewed 13 October 2026. MIT. No Emilio data or real private records.
 
