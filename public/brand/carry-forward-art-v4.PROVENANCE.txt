@@ -1,0 +1,45 @@
+Original App Composer illustration — Carry / forward
+Reviewed 17 October 2026.
+
+Source: one generated raster, "tile-carryforward-v5", produced through the fal.ai queue endpoint
+openai/gpt-image-2.5/sunburst/text-to-image under MP's authorisation, request
+01a14914-3913-7531-86aa-9703b16d14d4. The prompt, the full job record and the export commands are
+recorded in the owning App Composer repository at .artwork/tiles-v5.json,
+.artwork/masters/tile-carryforward-v5.result.json and .artwork/export-v5.sh. FAL_AI_API_KEY is read
+from the local environment by scripts/generate-app-art.mjs; it is never printed, never written to a
+manifest, never committed and never shipped to the browser.
+
+Art direction (supersedes the rejected 17 October cut-paper set): original adult-animated science
+fiction with confident dark ink contours, hard-edged cel shading in two flat tone steps, drawn
+perspective and one clear focal event. Scene: a workshop with two visibly different machines — a
+bulky retro mainframe with reel-to-reel tapes on the left, a slim modern handheld on a cradle on
+the right — while a short four-armed alien courier carries a distinctive memory core (dark shell,
+glowing violet centre, brass contacts) between them. A continuous violet signal ribbon runs from
+the mainframe through the carried core into the handheld, so the transfer is happening as the core
+moves. A small maintenance bot sleeps on top of the mainframe. Entirely illustrated; no photograph,
+no 3D render, no glow haze and no text baked into the image.
+
+Files in this repository, all exported from the master at review time:
+- carry-forward-art-v4-master.png — the reviewed master, square; byte-identical to the reviewed
+  .artwork/masters/tile-carryforward-v5.png recorded by App Composer.
+- carry-forward-art-v4-480.webp and carry-forward-art-v4-960.webp — 480px and 960px page hero
+  derivatives with a reserved 1:1 layout box.
+- carryforward-share-v4.jpg — 1200x630 JPEG social derivative, composed with deterministic
+  typography from the reviewed master. The same bytes are this app's card in the App Composer
+  catalogue.
+- carryforward-share-v4.webp and carryforward-share-v4-600.webp — 1200x630 and 600x315 WebP
+  variants.
+- apps/carryforward-small-v4.webp — 96px navigation crop of the same artwork.
+
+The illustration is explicitly separate from the fictional vault: it is never presented as a
+screenshot, as real assistant memory or as a real person's data.
+
+mark.svg and icon.png are authored, not generated: hand-written SVG geometry in the same family
+grammar (ivory tile, ink border, one ink subject and one accent — here a dark memory canister with
+a violet core), plus a 512px rendering of that mark for the apple-touch icon.
+
+Superseded in this release and removed from the repository: the 17 October 2026 cut-paper
+carry-forward-art-v3 master, 480/960 derivatives, share cards, 96px crops and the v1 suitcase tile.
+Their bytes and prompts remain in this repository's git history.
+
+Licence for these original project assets: MIT, like this repository.
