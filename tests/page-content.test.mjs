@@ -13,7 +13,7 @@ test("the reviewed artwork is wired in and every referenced asset exists", () =>
   assert.match(html, /\/brand\/carry-forward-art-v4-480\.webp 480w/);
   assert.match(html, /\/brand\/carryforward-share-v4\.jpg/);
   assert.match(html, /<link rel="icon" href="\/brand\/mark\.svg"/);
-  assert.match(html, /rel="preload" href="\/brand\/space\.woff2" as="font"/);
+  assert.match(html, /rel="preload" href="\/brand\/space-latin-20261018\.woff2" as="font"/);
   const paths = [...html.matchAll(/\/brand\/[a-z0-9./-]+\.(?:webp|jpg|png|svg|woff2)/g)].map(
     ([path]) => path,
   );
@@ -24,11 +24,11 @@ test("the reviewed artwork is wired in and every referenced asset exists", () =>
 });
 
 test("the bundled font and its licence are kept in one place", () => {
-  assert.equal(existsSync(new URL("public/brand/space.woff2", root)), true);
+  assert.equal(existsSync(new URL("public/brand/space-latin-20261018.woff2", root)), true);
   assert.equal(existsSync(new URL("public/brand/OFL-Space-Grotesk.txt", root)), true);
-  assert.equal(existsSync(new URL("public/space.woff2", root)), false);
+  assert.equal(existsSync(new URL("public/space-latin-20261018.woff2", root)), false);
   assert.equal(existsSync(new URL("public/OFL-Space-Grotesk.txt", root)), false);
-  assert.match(readFileSync(new URL("public/style.css", root), "utf8"), /url\('\/brand\/space\.woff2'\)/);
+  assert.match(readFileSync(new URL("public/style.css", root), "utf8"), /url\('\/brand\/space-latin-20261018\.woff2'\)/);
 });
 
 test("each idea is stated once: no demo wording, no restated passphrase rule", () => {
@@ -52,7 +52,7 @@ test("the numbered steps do not repeat the section headings they point at", () =
 test("the switcher lists every app by its own name and crop", () => {
   for (const [name, crop] of [
     ["Here / there", "herethere-small-v4"],
-    ["Linkarooie", "linkarooie-small-v4"],
+    ["Linkarooie", "linkarooie-small-20261018"],
     ["Link Check", "linkcheck-small-v4"],
     ["Hello World", "hello-small-v4"],
     ["Carry / forward", "carryforward-small-v4"],
