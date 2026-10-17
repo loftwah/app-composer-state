@@ -5,6 +5,8 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 const root = fileURLToPath(new URL("../", import.meta.url));
 const files = [
+  "deploy.mjs",
+  "tests/deploy-source.test.mjs",
   "worker.ts",
   "lib/publisher.mts",
   "src/browser/navigation.ts",

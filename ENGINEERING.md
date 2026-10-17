@@ -14,6 +14,8 @@ This is the first #175 type-coverage slice, using Node 22, pinned pnpm 12.8.1, T
 | `pnpm build` | Type/parity gate plus a credential-free Wrangler dry run. |
 | `pnpm deploy` | Existing exact clean pushed-main guard, quality/build gates, upload and live identity/sharing checks. |
 
+Deployment captures the reviewed SHA, tracked source tree and root `wrangler.jsonc` before quality/build checks. Immediately before upload it rechecks main/HEAD/origin-main, the origin URL, clean status, configuration bytes and every tracked file's actual bytes/type, including edits hidden by assume-unchanged or skip-worktree. Upload explicitly selects the captured root config and default environment. Release regressions run the real deploy script and Git against fictional fixtures with a failing upload sentinel; they never upload or contact a provider.
+
 `worker.ts` uses actual Fetcher/ExecutionContext types. `worker-configuration.d.ts` is generated with project-local `wrangler types --include-runtime=false --strict-vars=false`; rerun after binding changes. Worker compilation uses Workers globals; browser compilation uses DOM globals in `tsconfig.browser.json`, without combining incompatible global environments.
 
 Maintained browser source: `src/browser/navigation.ts` → `public/brand/navigation.js`; `client.mts`/`vault.mts` → `public/client.mjs`/`vault.mjs`. `lib/publisher.mts` produces its `.mjs` and `.d.mts` together; declarations no longer independently assert an unchecked implementation. Build/check never write a temporary project or require a compiler in the deployed browser. Edit the TS/MTS source, run `pnpm source:write`, and commit the reviewed source and output together.
