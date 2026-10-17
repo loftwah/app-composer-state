@@ -2,7 +2,7 @@
 <html lang="en" data-theme="dark" data-app="state">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
     <title>Carry / forward · Portable assistant memory</title>
     <meta name="description" content="Choose which memories to share. Try a fictional assistant profile and save an encrypted file you can reopen in your browser." />
     <link rel="canonical" href="https://ai.loftwah.com/" />
@@ -28,6 +28,7 @@
     <script src="/brand/reader-theme.js"></script>
     <link rel="preload" href="/brand/space.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/brand/navigation.css" />
+    <link rel="stylesheet" href="/brand/launcher.css" />
     <link rel="stylesheet" href="/style.css" />
   <link rel="stylesheet" href="/brand/page-share.css"><link rel="stylesheet" href="/brand/theme-control.css"></head>
   <body>
@@ -49,7 +50,7 @@
     <dialog id="app-navigation" aria-labelledby="app-navigation-title">
       <div class="dialog-heading">
         <h2 id="app-navigation-title">Apps and shortcuts</h2>
-        <button type="button" data-close-apps>Close</button>
+        <button type="button" data-close-apps autofocus>Close</button>
       </div>
       <label
         >Find an app or task<input
@@ -202,6 +203,7 @@
     <footer><div class="public-page-share" data-page-share hidden><button type="button" class="secondary" data-page-native hidden>Share page</button><button type="button" class="secondary" data-page-copy hidden>Copy page link</button><p role="status" aria-live="polite" data-share-status></p><label data-share-fallback hidden>Published page URL<input readonly aria-label="Published page URL"></label></div>
       Carry / forward · Fictional example
     <span> · <a href="https://composer.loftwah.com/">App Composer</a></span></footer>
+    <script src="/brand/launcher.js" defer></script>
     <script src="/brand/navigation.js"></script>
     <script type="module" src="/client.mjs"></script>
   <script type="module" src="/brand/page-performance.mjs"></script>
