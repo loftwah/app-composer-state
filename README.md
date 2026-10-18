@@ -8,9 +8,9 @@ Independent synthetic-only Portable AI State demo. Reviewed 13 October 2026. MIT
 
 Ciphertext persistence is opt-in. Browser/OS/extension compromise and guaranteed memory erasure are outside this demo’s guarantees. No key recovery: retain the passphrase separately. No server sync or provider account is claimed. #31–34 remain the security/interoperability acceptance gates before real sensitive data.
 
-![Carry / forward fictional example, captured in a real local browser](docs/images/public-example.png)
+![Current Carry / forward · Portable assistant memory public screen](docs/images/public-example-20261018.png)
 
-This is the actual public interface, captured locally with its fictional example content.
+Actual production public UI, captured 18 October 2026 at source `41eaf1432a8006a14a83809d8129358238a914b6`. [Phone capture](docs/images/public-example-20261018-phone.png) · [Capture provenance](docs/images/capture-20261018.json).
 
 ## Public project standard
 
