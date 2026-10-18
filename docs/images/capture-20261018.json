@@ -1,0 +1,42 @@
+{
+  "capturedAt": "2026-10-18T01:11:19.744Z",
+  "kind": "actual production public UI; fictional content remains labelled by the app",
+  "records": [
+    {
+      "id": "state",
+      "url": "https://ai.loftwah.com/",
+      "width": 1440,
+      "height": 960,
+      "source": "41eaf1432a8006a14a83809d8129358238a914b6",
+      "file": "docs/images/public-example-20261018.png",
+      "requestOverrides": false,
+      "verificationHeader": true,
+      "title": "Carry / forward \u00b7 Portable assistant memory",
+      "heading": "Try a memoryyou can carry.",
+      "theme": "dark",
+      "overflow": false,
+      "appsButton": true,
+      "sha256": "9cb76a7d709ecb3747dfc89ea4a7875c7968c2968cba9aa3ac6c3a28c2cbd406",
+      "bytes": 208929,
+      "captureFile": "state-1440.png"
+    },
+    {
+      "id": "state",
+      "url": "https://ai.loftwah.com/",
+      "width": 390,
+      "height": 844,
+      "source": "41eaf1432a8006a14a83809d8129358238a914b6",
+      "file": "docs/images/public-example-20261018-phone.png",
+      "requestOverrides": false,
+      "verificationHeader": true,
+      "title": "Carry / forward \u00b7 Portable assistant memory",
+      "heading": "Try a memoryyou can carry.",
+      "theme": "dark",
+      "overflow": false,
+      "appsButton": true,
+      "sha256": "f53c8d0ec4f0fae856a81c040b4ef5900b73c77cf6802b2c3df7374269ad8948",
+      "bytes": 86470,
+      "captureFile": "state-390.png"
+    }
+  ]
+}
