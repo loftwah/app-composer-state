@@ -1,5 +1,5 @@
-:root {color-scheme:dark;--background:#19181e;--foreground:#f3f0f7;--border:#665b72;--focus:#ff9b55;--surface:#29242f;--field:#201d25;--accent:#ccb0ed;--muted:#b9b1c2;--fg:var(--foreground);--control:#887b93}
-:root[data-theme=light] {color-scheme:light;--background:#faf8fc;--foreground:#2b243b;--border:#93809e;--focus:#a34315;--surface:#e6dcf0;--field:#fff;--accent:#594272;--muted:#62596c;--control:#93809e}
+:root {color-scheme:dark;--background:#19181e;--foreground:#f3f0f7;--border:#665b72;--focus:var(--composer-focus);--surface:#29242f;--field:#201d25;--accent:#ccb0ed;--muted:#b9b1c2;--fg:var(--foreground);--control:#887b93}
+:root[data-theme=light] {color-scheme:light;--background:#faf8fc;--foreground:#2b243b;--border:#93809e;--focus:var(--composer-focus);--surface:#e6dcf0;--field:#fff;--accent:#594272;--muted:#62596c;--control:#93809e}
 @font-face {font-family:Space;src:url('/brand/space-latin-20261018.woff2') format('woff2');font-weight:300 700;font-display:swap}
 * {box-sizing:border-box}
 html {scroll-padding-top:24px}
