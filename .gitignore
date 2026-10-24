@@ -4,3 +4,6 @@ node_modules/
 .env*
 
 dist/
+
+# Local release evidence; never committed.
+output/
