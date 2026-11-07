@@ -15,9 +15,9 @@
     "build": "pnpm check:types && wrangler deploy --dry-run --outdir dist"
   },
   "devDependencies": {
-    "wrangler": "4.143.1",
+    "wrangler": "4.158.0",
     "typescript": "6.0.3",
-    "@cloudflare/workers-types": "5.20260929.1",
+    "@cloudflare/workers-types": "5.20261107.1",
     "prettier": "3.9.10"
   },
   "packageManager": "pnpm@12.8.1",
