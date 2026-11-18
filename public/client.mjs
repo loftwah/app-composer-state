@@ -1,5 +1,5 @@
 // Generated from checked TypeScript; edit the corresponding .ts/.mts source. MIT.
-import { fictional, encryptDocument, decryptDocument, disclosure, reviewedCheckpoint, } from "./vault.mjs";
+import { fictional, encryptDocument, decodeEncryptedEnvelope, decryptDocument, disclosure, reviewedCheckpoint, } from "./vault.mjs";
 let current = null;
 let envelope = null;
 let busy = false, savedCopy = false;
@@ -191,7 +191,15 @@ input("import").onchange = () => bounded(async () => {
         return;
     if (f.size > 200000)
         throw new Error("Choose an encrypted example file smaller than 200 KB.");
-    const imported = JSON.parse(await f.text());
+    const text = await f.text();
+    let imported;
+    try {
+        imported = JSON.parse(text);
+    }
+    catch {
+        throw new Error("Choose a valid Carry / forward encrypted JSON file.");
+    }
+    decodeEncryptedEnvelope(imported);
     envelope = imported;
     current = null;
     input("passphrase").value = "";

@@ -1,6 +1,7 @@
 import {
   fictional,
   encryptDocument,
+  decodeEncryptedEnvelope,
   decryptDocument,
   disclosure,
   reviewedCheckpoint,
@@ -216,7 +217,14 @@ input("import").onchange = () =>
     if (!f) return;
     if (f.size > 200000)
       throw new Error("Choose an encrypted example file smaller than 200 KB.");
-    const imported: unknown = JSON.parse(await f.text());
+    const text = await f.text();
+    let imported: unknown;
+    try {
+      imported = JSON.parse(text);
+    } catch {
+      throw new Error("Choose a valid Carry / forward encrypted JSON file.");
+    }
+    decodeEncryptedEnvelope(imported);
     envelope = imported;
     current = null;
     input("passphrase").value = "";
