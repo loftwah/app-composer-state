@@ -31,8 +31,16 @@ function releaseFixture(action, initialAction = "") {
       new URL("../deploy.mjs", import.meta.url),
       join(workspace, "deploy.mjs"),
     );
+    // The real deploy imports the vendored release clock; copy the exact module
+    // so the fixture still runs the actual guarded script with only check/build/
+    // provider IO replaced.
+    mkdirSync(join(workspace, "scripts", "lib"), { recursive: true });
+    copyFileSync(
+      new URL("../scripts/lib/release-timing.mjs", import.meta.url),
+      join(workspace, "scripts", "lib", "release-timing.mjs"),
+    );
     writeFileSync(join(workspace, "package.json"), '{"type":"module"}');
-    writeFileSync(join(workspace, ".gitignore"), "dist/\n");
+    writeFileSync(join(workspace, ".gitignore"), "dist/\n.release/\n");
     writeFileSync(
       join(workspace, "wrangler.jsonc"),
       '{"name":"fictional-state","main":"worker.ts","assets":{"directory":"public"}}',

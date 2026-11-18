@@ -7,3 +7,4 @@ dist/
 
 # Local release evidence; never committed.
 output/
+.release/
