@@ -248,10 +248,7 @@ export async function encryptDocument(
     ciphertext: b64(new Uint8Array(ciphertext)),
   };
 }
-export async function decryptDocument(
-  envelope: unknown,
-  passphrase: string,
-): Promise<FictionalDocument> {
+export function decodeEncryptedEnvelope(envelope: unknown) {
   if (
     !record(envelope) ||
     envelope.version !== 1 ||
@@ -274,6 +271,13 @@ export async function decryptDocument(
     ciphertext.length < 16
   )
     throw new Error("Invalid encryption parameters");
+  return { salt, iv, ciphertext };
+}
+export async function decryptDocument(
+  envelope: unknown,
+  passphrase: string,
+): Promise<FictionalDocument> {
+  const { salt, iv, ciphertext } = decodeEncryptedEnvelope(envelope);
   try {
     const key = await derive(passphrase, salt);
     const plaintext = await crypto.subtle.decrypt(
