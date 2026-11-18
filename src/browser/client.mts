@@ -189,7 +189,7 @@ button("encrypt").onclick = () =>
       url = URL.createObjectURL(blob),
       a = document.createElement("a");
     a.href = url;
-    a.download = "mira-vale.state.enc.json";
+    a.download = "carry-forward.state.enc.json";
     a.click();
     URL.revokeObjectURL(url);
     input("passphrase").value = "";
