@@ -205,7 +205,7 @@ button("unlock").onclick = () => bounded(async () => {
     current = await decryptDocument(envelope, input("passphrase").value);
     input("passphrase").value = "";
     render();
-    showMessage("Mira’s profile is open again. Choose memories above to copy; nothing has been shared.", "file");
+    showMessage(`${current.profile.name}’s profile is open again. Choose memories above to copy; nothing has been shared.`, "file");
 });
 button("forget").onclick = () => {
     try {
