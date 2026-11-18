@@ -234,7 +234,7 @@ button("unlock").onclick = () =>
     input("passphrase").value = "";
     render();
     showMessage(
-      "Mira’s profile is open again. Choose memories above to copy; nothing has been shared.",
+      `${current.profile.name}’s profile is open again. Choose memories above to copy; nothing has been shared.`,
       "file",
     );
   });
